@@ -41,6 +41,10 @@ export async function login() {
         if(browserResult.type != 'success') throw new Error("Failed to Login");
 
         const url = new URL(browserResult.url);
+
+        const secret = url.searchParams.get('secret')?.toString();
+        const userId = url.searchParams.get('userId')?.toString();
+
     } catch(error) {
         console.error(error);
         return false;
