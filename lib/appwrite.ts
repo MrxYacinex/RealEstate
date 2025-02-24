@@ -45,8 +45,43 @@ export async function login() {
         const secret = url.searchParams.get('secret')?.toString();
         const userId = url.searchParams.get('userId')?.toString();
 
+        if (!secret || !userId) throw new Error("Create OAuth2 token failed");
+
+        const session = await account.createSession(userId, secret);
+        if (!session) throw new Error("Failed to create session");
+
+        return true;
     } catch(error) {
         console.error(error);
         return false;
     }
 }
+
+export async function logout() {
+    try {
+      const result = await account.deleteSession("current");
+      return result;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+
+  export async function getCurrentUser() {
+    try {
+      const result = await account.get();
+      if (result.$id) {
+        const userAvatar = avatar.getInitials(result.name);
+  
+        return {
+          ...result,
+          avatar: userAvatar.toString(),
+        };
+      }
+  
+      return null;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
