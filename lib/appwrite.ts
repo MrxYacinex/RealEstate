@@ -67,7 +67,7 @@ export async function logout() {
     }
   }
 
-  export async function getCurrentUser() {
+export async function getCurrentUser() {
     try {
       const result = await account.get();
       if (result.$id) {
@@ -84,4 +84,24 @@ export async function logout() {
       console.log(error);
       return null;
     }
-  }
+}
+
+export async function getUser() {
+    try {
+      const response = await account.get();
+
+      if (response.$id) {
+        const userAvatar = avatar.getInitials(response.name);
+  
+        return {
+          ...response,
+          avatar: userAvatar.toString(),
+        };
+      }
+  
+      return null;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+}
