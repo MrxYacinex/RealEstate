@@ -39,6 +39,8 @@ export async function login() {
         )
         
         if(browserResult.type != 'success') throw new Error("Failed to Login");
+
+        const url = new URL(browserResult.url);
     } catch(error) {
         console.error(error);
         return false;
